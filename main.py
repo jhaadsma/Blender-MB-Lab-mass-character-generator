@@ -7,16 +7,27 @@ import json
 import codecs
 import os
 import glob
+import shutil
+import platform
 
+userOS = platform.system()
+print(userOS)
+if userOS == 'Darwin':
+	dirDivide = '/'
+elif userOS == 'Windows':
+	dirDivide = "\\"
+else:
+	print('Invalid operating system\n\nSorry!')
+	
 
-
-print('\n\n****Human Creation tool****')
-print('>>>All figures are in centimeters\n\n')
-
+print('\n\n****Blender MB-Lab Character Generator****\n\n')
+print('Generates JSON data that you can import into MB-Lab add-on for Blender\n')
+print('Please see the README for more details, thank you\n\n')
+print('Jefferson Haadsma 2022\n\n')
 
 #reads data from config.ini
 config_object = ConfigParser()
-config_object.read("./config.ini")
+config_object.read('.' + dirDivide + "config.ini")
 
 #Lists available character configurations, then asks user to choose a configuration, chosen configuration is used 
 print('\n\nWhat type of Characters would you like to generate. Enter choice from below, or press enter for DEFAULT configuration')
@@ -72,7 +83,7 @@ eType = typeOfHuman["type"]
 storage_dir = 'storage'
 cwd = os.getcwd()
 dir_list = os.listdir(cwd)
-create_storage_dir =  cwd + '/' +  storage_dir 
+create_storage_dir =  cwd + dirDivide +  storage_dir 
 for s in dir_list:
 	if storage_dir in dir_list:
 		print("\nFolder Exists\n")
@@ -83,16 +94,14 @@ for s in dir_list:
 		os.mkdir(create_storage_dir)
 		break
 
-dir_path = create_storage_dir + '/'
+dir_path = create_storage_dir + dirDivide
 
 #Prompts user to choose to save character or not
 print('Create new, enter "1"')
 print('Add to existing, enter "2"')
 saveC = input()
 
-use_dir = ''
-jsonDir = ''
-textFile = ''
+
 #User chooses number of characters
 #Character(s) stats stored in one text file, and individual json files per character
 #json file named the uid of the character
@@ -114,18 +123,21 @@ if saveC == '1':
 	newTextFile = new_dir +  fileDirName + '.txt'
 	f = open(newTextFile, "w+")
 	textFile = newTextFile
+
+	total, used, free = shutil.disk_usage(__file__)
+	print(total, used, free)
 	
 
 
 elif saveC == '2':
 		
-	
-	print("Enter a directory from the list")
+	print("Enter a directory from the list:\n\n")
 	print(os.listdir(dir_path))
 	chooseDir = input()
 	use_dir = dir_path + chooseDir + '/'
 	textFile = use_dir + chooseDir + '.txt'
 	jsonDir = use_dir + 'json/'
+
 
 #Following creates the characters
 for k in range (charNum):
