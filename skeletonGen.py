@@ -2,8 +2,7 @@ import numpy as np
 
 #This class constructs the dimensional "skeleton". 
 
-#can the inputs for the class be a dictionary?
-#restructure class so inputs and amount of inputs are determined by main class and config
+
 class skeleton:
   def __init__(self, heightAvg, heightStdDev, upperLegLengthAvg, lowerLegLengthAvg, footHeightAvg, headHeightAvg, torsoHeightAvg, neckHeightAvg, hipHeightAvg, wingspanAvg, wingspanStdDev, shoulderWidthAvg, handLengthAvg, forearmLengthAvg, upperArmLengthAvg, hipWidthAvg, ankleCircAvg, wristCircAvg, chestWidthAvg, chestGirthAvg, neckGirthAvg, waistGirthAvg, buttockGirthAvg):
     
@@ -49,14 +48,14 @@ class skeleton:
         
     shoulderWidth = wingGen(shoulderWidthAvg)
     self.shoulderWidth = shoulderWidth
-    handLength = wingGen(handLengthAvg) 
+    handLength = wingGen(handLengthAvg)/ 2  #Divide limbs that are mutlitple by 2
     self.handLength = handLength
-    forearmLength = wingGen(forearmLengthAvg) 
+    forearmLength = wingGen(forearmLengthAvg)/ 2
     self.forearmLength = forearmLength
-    upperArmLength = wingGen(upperArmLengthAvg) 
+    upperArmLength = wingGen(upperArmLengthAvg)/ 2
     self.upperArmLength = upperArmLength
 
-    self.wingspan = shoulderWidth + handLength + forearmLength  + upperArmLength 
+    self.wingspan = shoulderWidth + (handLength * 2) + (forearmLength * 2)  + (upperArmLength * 2)
 
     def otherGen(otherAvg):
       newOther = np.random.normal(height * otherAvg, otherAvg * heightStdDev)

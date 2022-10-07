@@ -43,6 +43,11 @@ print('\n\nInput how many characters you would like to generate:')
 #number of characteres to be generated
 charNum = int(input())
 
+#Limits number of character generated at once as to not take up too much user data accidently
+#Plan to update to read amount of storage on user system and base limit on that
+if charNum >=1000:
+	charNum = 1000
+
 #improve naming convention for less confusion (ie fAvg and faAvg etc)
 #convert to doubles(decimal)
 
@@ -79,7 +84,7 @@ expEndStd = float(typeOfHuman["expEndRatioStdDev"])
 eType = typeOfHuman["type"]
 
 
-# Checks if storage directory exits in CWD, if it does not exist it creates one
+# Checks if storage directory exits in CWD, if it does not exist it creates one named 'storage'
 storage_dir = 'storage'
 cwd = os.getcwd()
 dir_list = os.listdir(cwd)
@@ -150,7 +155,7 @@ for k in range (charNum):
 	#Formatted string variable for text and json storage, not final, in progress
 	tHumanTxt = ["\n\n{\n\nID: ", str(testHumanId),
 			"\nType:", eType, 
-			"\n\n11Height: ", str(testHumanSkel.outputHeight), 
+			"\n\nHeight: ", str(testHumanSkel.outputHeight), 
 			"\nWinspan: ", str(testHumanSkel.wingspan), 
 			"\nUpper Leg Length: ", str(testHumanSkel.upperLegLength), 
 			"\nLower Leg Length", str(testHumanSkel.lowerLegLength),
@@ -195,9 +200,9 @@ for k in range (charNum):
 	jsonNeckHeight = jsonFormat(testHumanSkel.neckHeight)
 	jsonHipHeight = jsonFormat(testHumanSkel.hipHeight)
 	jsonShoulderWidth = jsonFormat(testHumanSkel.shoulderWidth)
-	jsonHandLength = jsonFormat(testHumanSkel.handLength / 2) 
-	jsonForearmLength = jsonFormat(testHumanSkel.forearmLength / 2) 
-	jsonUpperArmLength = jsonFormat(testHumanSkel.upperArmLength / 2) 
+	jsonHandLength = jsonFormat(testHumanSkel.handLength) 
+	jsonForearmLength = jsonFormat(testHumanSkel.forearmLength) 
+	jsonUpperArmLength = jsonFormat(testHumanSkel.upperArmLength) 
 	jsonHipBreadth = jsonFormat(testHumanSkel.hipWidth)
 	jsonAnkleCirc = jsonFormat(testHumanSkel.ankleCirc)
 	jsonWristCirc = jsonFormat(testHumanSkel.wristCirc)
@@ -210,8 +215,10 @@ for k in range (charNum):
 	#store all these values in an array, then cycle through them?
 
 
+	#Formatted for MBlab JSON data
 	tHumanJson =  {"manuellab_vers": [1, 7, 7], "measures": {"upperleg_length": jsonUpperLegLength, "buttock_depth_Y": .255 , "chest_girth": jsonChestGirth, "wrist_girth": jsonWristCirc, "upperarm_axillary_girth": 0.368, "neck_girth": jsonNeckGirth, "lowerleg_length": jsonLowerLegLength, "lowerleg_bottom_girth": 0.216, "head_height_Z": jsonHeadHeight, "feet_length": 0.284, "lowerleg_calf_girth": 0.397, "feet_heel_width": 0.078, "torso_height_Z": jsonTorsoHeight, "upperleg_top_girth": 0.569, "shoulders_width": jsonShoulderWidth, "feet_height_Z": jsonFootHeight, "buttock_width_X": jsonHipBreadth, "waist_girth": jsonWaistGirth, "elbow_girth": 0.307, "head_width_X": 0.151, "chest_depth_Y": 0.244, "upperleg_bottom_girth": 0.436, "forearm_length": jsonForearmLength, "buttock_height_Z": jsonHipHeight, "hands_width": 0.088, "hands_length": jsonHandLength, "upperarm_length": jsonUpperArmLength, "feet_width": 0.109, "body_height_Z": jsonHeight, "neck_height_Z": jsonNeckHeight, "head_length": 0.215, "buttock_girth": jsonButtockGirth, "chest_width_X": jsonChestWidth}}
 	
+	#stores generated variable values into above json string
 	jsonFileName = jsonDir + testHumanId + '.json'
 	e = open(jsonFileName, "w+")
 	with open(jsonFileName, "a") as j:
